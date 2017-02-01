@@ -8,7 +8,7 @@ public class FantasyFRC {
 		
 		System.out.println("What team?");
 		int answer = scan.nextInt();
-		RobotTeam team = new RobotTeam(answer, 2016, 5);
+		RobotTeam team = new RobotTeam(answer, 2013, 5);
 		System.out.println(team.getName());
 		team.listEvents();
 		System.out.println("Which competition?");

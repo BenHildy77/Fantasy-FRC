@@ -44,17 +44,15 @@ public class RobotTeam {
 		return "Overall Record: " + ovrRecords.get(index).text();
 	}
 	
-	public String getQualRecord(int indexIn) {
+	public String getQualRecord(int indexIn) throws IOException {
 		int index = indexIn + 1;
-		qualWins = doc.select("body > div:nth-child(5) > div > div.col-xs-12.col-sm-9.col-lg-10 > div:nth-child(3) > .col-xs-12 > div:nth-of-type("+index+")"
-				+ "> div.col-sm-8 > table > tbody > tr.hidden-lg > .winner.current-team > a[href]");
+		Element compID = doc.select(".col-xs-12 .col-xs-12 > div:nth-of-type(" + index + ")").first();
+		String id = compID.id();
 		
-		qualMatches = doc.select("body > div:nth-child(5) > div > div.col-xs-12.col-sm-9.col-lg-10 > div:nth-child(3) > .col-xs-12 > div:nth-of-type("+index+")"
-				+ "> div.col-sm-8 > table > tbody > tr.hidden-lg > .current-team > a[href]");
-		
-		int losses = qualMatches.size() - qualWins.size();
-		String record = "Qual Record: " + qualWins.size() + "-" + losses; //#\32 016onto > div.col-sm-8 > table > tbody > tr:nth-child(9) > td.red.winner.current-team
-		return record;
+		Document compDoc = Jsoup.connect("https://www.thebluealliance.com/event/" + id + "#rankings").get();
+		Element qualRec = compDoc.select("#rankingsTable > tbody > tr:contains("+number+") > td:contains(-)").first();
+		String rec = qualRec.text();
+		return rec;
 	}
 
 	public String getRank(int indexIn) {
